@@ -1,0 +1,246 @@
+Help on class Submission in module praw.objects:
+
+class Submission(Editable, Hideable, Moderatable, Refreshable, Reportable, Saveable, Voteable)
+ |  A class for submissions to reddit.
+ |  
+ |  Method resolution order:
+ |      Submission
+ |      Editable
+ |      Hideable
+ |      Moderatable
+ |      Refreshable
+ |      Reportable
+ |      Saveable
+ |      Voteable
+ |      RedditContentObject
+ |      __builtin__.object
+ |  
+ |  Methods defined here:
+ |  
+ |  __init__(self, reddit_session, json_dict)
+ |  
+ |  __unicode__(self, *args, **kwargs)
+ |  
+ |  add_comment(self, text)
+ |      Comment on the submission using the specified text.
+ |      
+ |      :returns: A Comment object for the newly created comment.
+ |  
+ |  replace_more_comments(self, limit=32, threshold=1)
+ |      Update the comment tree by replacing instances of MoreComments.
+ |      
+ |      :param limit: The maximum number of MoreComments objects to
+ |          replace. Each replacement requires 1 API request. Set to None to
+ |          have no limit. Default: 32
+ |      :param threshold: The minimum number of children comments a
+ |          MoreComments object must have in order to be replaced. Default: 1
+ |      :returns: A list of MoreComments objects that were not replaced.
+ |      
+ |      Note that after making this call, the `comments` attribute of the
+ |      submission will no longer contain any MoreComments objects. Items that
+ |      weren't replaced are still removed from the tree.
+ |  
+ |  set_flair(self, *args, **kwargs)
+ |      Set flair for this submission.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods defined here:
+ |  
+ |  from_id(reddit_session, subreddit_id)
+ |      Return an edit-only submission object based on the id.
+ |  
+ |  from_url(cls, *args, **kwargs)
+ |      Request the url and return a Submission object.
+ |      
+ |      :param reddit_session: The session to make the request with.
+ |      :param url: The url to build the Submission object from.
+ |      :param comment_limit: The desired number of comments to fetch. If <= 0
+ |          fetch the default number for the session's user. If None, fetch the
+ |          maximum possible.
+ |      :param comment_sort: The sort order for retrived comments. When None
+ |          use the default for the session's user.
+ |      :param comments_only: Return only the list of comments.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  comments
+ |      Return forest of comments, with top-level comments as tree roots.
+ |      
+ |      May contain instances of MoreComment objects. To easily replace these
+ |      objects with Comment objects, use the replace_more_comments method then
+ |      fetch this attribute. Use comment replies to walk down the tree. To get
+ |      an unnested, flat list of comments from this attribute use
+ |      helpers.flatten_tree.
+ |  
+ |  short_link
+ |      Return a short link to the submission.
+ |      
+ |      The short link points to a page on the short_domain that redirects to
+ |      the main. http://redd.it/y3r8u is a short link for reddit.com.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Editable:
+ |  
+ |  delete(cls, *args, **kwargs)
+ |      Delete this object.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  edit(cls, *args, **kwargs)
+ |      Replace the body of the object with `text`.
+ |      
+ |      :returns: The updated object.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Hideable:
+ |  
+ |  hide(cls, *args, **kwargs)
+ |      Hide object in the context of the logged in user.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  unhide(self)
+ |      Unhide object in the context of the logged in user.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Moderatable:
+ |  
+ |  approve(cls, *args, **kwargs)
+ |      Approve object.
+ |      
+ |      This reverts a removal, resets the report counter, marks it with a
+ |      green checkmark (only visible to other moderators) on the webend and
+ |      sets the approved_by attribute to the logged in user.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  distinguish(cls, *args, **kwargs)
+ |      Distinguish object as made by mod, admin or special.
+ |      
+ |      Distinguished objects have a different author color. With Reddit
+ |      enhancement suite it is the background color that changes.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  mark_as_nsfw(cls, *args, **kwargs)
+ |      Mark object as Not Safe For Work.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  remove(cls, *args, **kwargs)
+ |      Remove object. This is the moderator version of delete.
+ |      
+ |      The object is removed from the subreddit listings and placed into the
+ |      spam listing. If spam is set to True, then the automatic spam filter
+ |      will try to remove objects with similair attributes in the future.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  undistinguish(self)
+ |      Remove mod, admin or special distinguishing on object.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  unmark_as_nsfw(self)
+ |      Mark object as Safe For Work.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Refreshable:
+ |  
+ |  refresh(self)
+ |      Re-query to update object with latest values.
+ |      
+ |      Note that if this call is made within cache_timeout as specified in
+ |      praw.ini then this will return the cached content. Any listing, such
+ |      as the submissions on a subreddits top page, will automatically be
+ |      refreshed serverside. Refreshing a submission will also refresh all its
+ |      comments.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Reportable:
+ |  
+ |  report(cls, *args, **kwargs)
+ |      Report this object to the moderators.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Saveable:
+ |  
+ |  save(cls, *args, **kwargs)
+ |      Save the object.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  unsave(self)
+ |      Unsave the object.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from Voteable:
+ |  
+ |  clear_vote(self)
+ |      Remove the logged in user's vote on the object.
+ |      
+ |      Running this on an object with no existing vote has no adverse effects.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  downvote(self)
+ |      Downvote object. If there already is a vote, replace it.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  upvote(self)
+ |      Upvote object. If there already is a vote, replace it.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  vote(cls, *args, **kwargs)
+ |      Vote for the given item in the direction specified.
+ |      
+ |      :returns: The json response from the server.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from RedditContentObject:
+ |  
+ |  __eq__(self, other)
+ |  
+ |  __getattr__(self, attr)
+ |  
+ |  __ne__(self, other)
+ |  
+ |  __setattr__(self, name, value)
+ |  
+ |  __str__(self)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods inherited from RedditContentObject:
+ |  
+ |  from_api_response(cls, reddit_session, json_dict) from __builtin__.type
+ |      Return an instance of the appropriate class from the json_dict.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from RedditContentObject:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+ |  
+ |  fullname
+ |      Return the object's fullname.
+ |      
+ |      A fullname is an object's kind mapping like `t3` followed by an
+ |      underscore and the object's base36 id, e.g., `t1_c5s96e0`.
+
+[Finished in 0.3s]

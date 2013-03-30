@@ -1,0 +1,3740 @@
+Help on package praw:
+
+NAME
+    praw - Python Reddit API Wrapper.
+
+FILE
+    /Library/Python/2.7/site-packages/praw/__init__.py
+
+DESCRIPTION
+    PRAW, an acronym for "Python Reddit API Wrapper", is a python package that
+    allows for simple access to reddit's API. PRAW aims to be as easy to use as
+    possible and is designed to follow all of reddit's API rules. You have to give
+    a useragent, everything else is handled by PRAW so you needn't worry about
+    violating them.
+    
+    More information about PRAW can be found at https://github.com/praw-dev/praw
+
+PACKAGE CONTENTS
+    decorators
+    errors
+    helpers
+    objects
+    settings
+    tests (package)
+
+CLASSES
+    __builtin__.object
+        BaseReddit
+            OAuth2Reddit
+                AuthenticatedReddit(OAuth2Reddit, UnauthenticatedReddit)
+                    ModConfigMixin
+                        Reddit(ModConfigMixin, ModFlairMixin, ModLogMixin, ModOnlyMixin, MySubredditsMixin, PrivateMessagesMixin, SubmitMixin, SubscribeMixin)
+                    ModFlairMixin
+                    ModLogMixin
+                    ModOnlyMixin
+                    MySubredditsMixin
+                    PrivateMessagesMixin
+                    SubmitMixin
+                    SubscribeMixin
+            UnauthenticatedReddit
+        Config
+    
+    class AuthenticatedReddit(OAuth2Reddit, UnauthenticatedReddit)
+     |  This class adds the methods necessary for authenticating with reddit.
+     |  
+     |  Authentication can either be login based (through login), or OAuth2 based
+     |  (via set_access_credentials).
+     |  
+     |  Method resolution order:
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class BaseReddit(__builtin__.object)
+     |  A base class that allows acccess to reddit's API.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, user_agent, site_name=None, disable_update_check=False)
+     |      Initialize our connection with a reddit server.
+     |      
+     |      The user_agent is how your application identifies itself. Read the
+     |      official API guidelines for user_agents
+     |      https://github.com/reddit/reddit/wiki/API.  Applications using default
+     |      user_agents such as "Python/urllib" are drastically limited.
+     |      
+     |      site_name allows you to specify which reddit you want to connect to.
+     |      The installation defaults are reddit.com, if you only need to connect
+     |      to reddit.com then you can safely ignore this. If you want to connect
+     |      to another reddit, set site_name to the name of that reddit. This must
+     |      match with an entry in praw.ini. If site_name is None, then the site
+     |      name will be looked for in the environment variable REDDIT_SITE. If it
+     |      is not found there, the default site name reddit matching reddit.com
+     |      will be used.
+     |      
+     |      disable_update_check allows you to prevent an update check from
+     |      occuring in spite of the check_for_updates setting in praw.ini.
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class Config(__builtin__.object)
+     |  A class containing the configuration for a reddit site.
+     |  
+     |  Methods defined here:
+     |  
+     |  __getitem__(self, key)
+     |      Return the URL for key.
+     |  
+     |  __init__(self, site_name)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  short_domain
+     |      Return the short domain of the reddit.
+     |      
+     |      Used to generate the shortlink. For reddit.com the short_domain is
+     |      redd.it and generate shortlinks like http://redd.it/y3r8u
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  API_PATHS = {'accept_mod_invite': 'api/accept_moderator_invite', 'acce...
+     |  
+     |  SSL_PATHS = ('access_token_url', 'authorize', 'login')
+    
+    class ModConfigMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'modconfig' scope (or mod access).
+     |  
+     |  Method resolution order:
+     |      ModConfigMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  create_subreddit(cls, *args, **kwargs)
+     |      Create a new subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  delete_image(cls, *args, **kwargs)
+     |      Delete an image from the subreddit.
+     |      
+     |      :param name: The name of the image if removing a CSS image.
+     |      :param header: When true, delete the subreddit header.
+     |      :returns: The json response from the server.
+     |  
+     |  get_settings(cls, *args, **kwargs)
+     |      Return the settings for the given subreddit.
+     |  
+     |  set_settings(cls, *args, **kwargs)
+     |      Set the settings for the given subreddit.
+     |      
+     |      :param subreddit: Must be  a subreddit object.
+     |      :returns: The json response from the server.
+     |  
+     |  set_stylesheet(cls, *args, **kwargs)
+     |      Set stylesheet for the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  update_settings(self, subreddit, **kwargs)
+     |      Update only the given settings for the given subreddit.
+     |      
+     |      The settings to update must be given by keyword and match one of the
+     |      parameter names in `set_settings`.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  upload_image(cls, *args, **kwargs)
+     |      Upload an image to the subreddit.
+     |      
+     |      :param image_path: A path to the jpg or png image you want to upload.
+     |      :param name: The name to provide the image. When None the name will be
+     |          filename less any extension.
+     |      :param header: When true, upload the image as the subreddit header.
+     |      :returns: True when the upload was successful. False otherwise. Note
+     |          this is subject to change.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class ModFlairMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'modflair' scope (or mod access).
+     |  
+     |  Method resolution order:
+     |      ModFlairMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  add_flair_template(cls, *args, **kwargs)
+     |      Add a flair template to the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_flair_templates(cls, *args, **kwargs)
+     |      Clear flair templates for the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  configure_flair(cls, *args, **kwargs)
+     |      Configure the flair setting for the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  delete_flair(cls, *args, **kwargs)
+     |      Delete the flair for the given user on the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_flair_list(cls, *args, **kwargs)
+     |      Return a get_content generator of flair mappings.
+     |      
+     |      Each flair mapping is a dict with three keys. 'user', 'flair_text' and
+     |      'flair_css_class'.
+     |  
+     |  set_flair(cls, *args, **kwargs)
+     |      Set flair for the user in the given subreddit.
+     |      
+     |      Item can be a string, Redditor object, or Submission object. If item is
+     |      a string it will be treated as the name of a Redditor.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  set_flair_csv(cls, *args, **kwargs)
+     |      Set flair for a group of users in the given subreddit.
+     |      
+     |      flair_mapping should be a list of dictionaries with the following keys:
+     |        user: the user name
+     |        flair_text: the flair text for the user (optional)
+     |        flair_css_class: the flair css class for the user (optional)
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class ModLogMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'modlog' scope (or mod access).
+     |  
+     |  Method resolution order:
+     |      ModLogMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  get_mod_log(cls, *args, **kwargs)
+     |      Return a get_content generator for moderation log items.
+     |      
+     |      :param mod: If given, only return the actions made by this moderator.
+     |                  Both a moderator name or Redditor object can be used here.
+     |      :param action: If given, only return entries for the specified action.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class ModOnlyMixin(AuthenticatedReddit)
+     |  Adds methods requiring the logged in moderator access.
+     |  
+     |  Method resolution order:
+     |      ModOnlyMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  get_banned(cls, *args, **kwargs)
+     |      Return the list of banned users for the given subreddit.
+     |  
+     |  get_contributors(cls, *args, **kwargs)
+     |      Return the list of contributors for the given subreddit.
+     |  
+     |  get_mod_queue(cls, *args, **kwargs)
+     |      Return a get_content_generator for the  moderator queue.
+     |  
+     |  get_reports(cls, *args, **kwargs)
+     |      Return a get_content generator of reported submissions.
+     |  
+     |  get_spam(cls, *args, **kwargs)
+     |      Return a get_content generator of spam-filtered items.
+     |  
+     |  get_stylesheet(cls, *args, **kwargs)
+     |      Return the stylesheet and images for the given subreddit.
+     |  
+     |  get_unmoderated(cls, *args, **kwargs)
+     |      Return a get_content generator of unmoderated items.
+     |  
+     |  get_wiki_banned(cls, *args, **kwargs)
+     |      Return a list of users banned from the wiki.
+     |  
+     |  get_wiki_contributors(cls, *args, **kwargs)
+     |      Return a list of users who can contribute to the wiki.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class MySubredditsMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'mysubreddits' scope (or login).
+     |  
+     |  Method resolution order:
+     |      MySubredditsMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  get_my_contributions(cls, *args, **kwargs)
+     |      Return the subreddits where the session's user is a contributor.
+     |  
+     |  get_my_moderation(cls, *args, **kwargs)
+     |      Return the subreddits where the session's user is a mod.
+     |  
+     |  get_my_reddits(cls, *args, **kwargs)
+     |      Return the subreddits that the logged in user is subscribed to.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class OAuth2Reddit(BaseReddit)
+     |  Provides functionality for obtaining reddit OAuth2 access tokens.
+     |  
+     |  Method resolution order:
+     |      OAuth2Reddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  get_access_information(self, *args, **kwargs)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  refresh_access_information(self, *args, **kwargs)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: the refresh token used to obtain the updated
+     |          information
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class PrivateMessagesMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'privatemessages' scope (or login).
+     |  
+     |  Method resolution order:
+     |      PrivateMessagesMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  get_inbox(cls, *args, **kwargs)
+     |      Return a generator for inbox messages.
+     |  
+     |  get_mod_mail(cls, *args, **kwargs)
+     |      Return a generator for moderator messages.
+     |  
+     |  get_sent(cls, *args, **kwargs)
+     |      Return a generator for sent messages.
+     |  
+     |  get_unread(cls, *args, **kwargs)
+     |      Return a generator for unread messages.
+     |      
+     |      :param unset_has_mail: When true, clear the has_mail flag (orangered)
+     |          for the user.
+     |      :param update_user: If both unset_has_mail and update user is true, set
+     |          the has_mail attribute of the logged-in user to False.
+     |  
+     |  send_message(cls, *args, **kwargs)
+     |      Send a message to a redditor or a subreddit's moderators (mod mail).
+     |      
+     |      When sending a message to a subreddit the recipient parameter must
+     |      either be a subreddit object or the subreddit name needs to be prefixed
+     |      with either '/r/' or '#'.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class Reddit(ModConfigMixin, ModFlairMixin, ModLogMixin, ModOnlyMixin, MySubredditsMixin, PrivateMessagesMixin, SubmitMixin, SubscribeMixin)
+     |  Provides the fullest access to reddit's API.
+     |  
+     |  Method resolution order:
+     |      Reddit
+     |      ModConfigMixin
+     |      ModFlairMixin
+     |      ModLogMixin
+     |      ModOnlyMixin
+     |      MySubredditsMixin
+     |      PrivateMessagesMixin
+     |      SubmitMixin
+     |      SubscribeMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods inherited from ModConfigMixin:
+     |  
+     |  create_subreddit(cls, *args, **kwargs)
+     |      Create a new subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  delete_image(cls, *args, **kwargs)
+     |      Delete an image from the subreddit.
+     |      
+     |      :param name: The name of the image if removing a CSS image.
+     |      :param header: When true, delete the subreddit header.
+     |      :returns: The json response from the server.
+     |  
+     |  get_settings(cls, *args, **kwargs)
+     |      Return the settings for the given subreddit.
+     |  
+     |  set_settings(cls, *args, **kwargs)
+     |      Set the settings for the given subreddit.
+     |      
+     |      :param subreddit: Must be  a subreddit object.
+     |      :returns: The json response from the server.
+     |  
+     |  set_stylesheet(cls, *args, **kwargs)
+     |      Set stylesheet for the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  update_settings(self, subreddit, **kwargs)
+     |      Update only the given settings for the given subreddit.
+     |      
+     |      The settings to update must be given by keyword and match one of the
+     |      parameter names in `set_settings`.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  upload_image(cls, *args, **kwargs)
+     |      Upload an image to the subreddit.
+     |      
+     |      :param image_path: A path to the jpg or png image you want to upload.
+     |      :param name: The name to provide the image. When None the name will be
+     |          filename less any extension.
+     |      :param header: When true, upload the image as the subreddit header.
+     |      :returns: True when the upload was successful. False otherwise. Note
+     |          this is subject to change.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ModFlairMixin:
+     |  
+     |  add_flair_template(cls, *args, **kwargs)
+     |      Add a flair template to the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_flair_templates(cls, *args, **kwargs)
+     |      Clear flair templates for the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  configure_flair(cls, *args, **kwargs)
+     |      Configure the flair setting for the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  delete_flair(cls, *args, **kwargs)
+     |      Delete the flair for the given user on the given subreddit.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_flair_list(cls, *args, **kwargs)
+     |      Return a get_content generator of flair mappings.
+     |      
+     |      Each flair mapping is a dict with three keys. 'user', 'flair_text' and
+     |      'flair_css_class'.
+     |  
+     |  set_flair(cls, *args, **kwargs)
+     |      Set flair for the user in the given subreddit.
+     |      
+     |      Item can be a string, Redditor object, or Submission object. If item is
+     |      a string it will be treated as the name of a Redditor.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  set_flair_csv(cls, *args, **kwargs)
+     |      Set flair for a group of users in the given subreddit.
+     |      
+     |      flair_mapping should be a list of dictionaries with the following keys:
+     |        user: the user name
+     |        flair_text: the flair text for the user (optional)
+     |        flair_css_class: the flair css class for the user (optional)
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ModLogMixin:
+     |  
+     |  get_mod_log(cls, *args, **kwargs)
+     |      Return a get_content generator for moderation log items.
+     |      
+     |      :param mod: If given, only return the actions made by this moderator.
+     |                  Both a moderator name or Redditor object can be used here.
+     |      :param action: If given, only return entries for the specified action.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from ModOnlyMixin:
+     |  
+     |  get_banned(cls, *args, **kwargs)
+     |      Return the list of banned users for the given subreddit.
+     |  
+     |  get_contributors(cls, *args, **kwargs)
+     |      Return the list of contributors for the given subreddit.
+     |  
+     |  get_mod_queue(cls, *args, **kwargs)
+     |      Return a get_content_generator for the  moderator queue.
+     |  
+     |  get_reports(cls, *args, **kwargs)
+     |      Return a get_content generator of reported submissions.
+     |  
+     |  get_spam(cls, *args, **kwargs)
+     |      Return a get_content generator of spam-filtered items.
+     |  
+     |  get_stylesheet(cls, *args, **kwargs)
+     |      Return the stylesheet and images for the given subreddit.
+     |  
+     |  get_unmoderated(cls, *args, **kwargs)
+     |      Return a get_content generator of unmoderated items.
+     |  
+     |  get_wiki_banned(cls, *args, **kwargs)
+     |      Return a list of users banned from the wiki.
+     |  
+     |  get_wiki_contributors(cls, *args, **kwargs)
+     |      Return a list of users who can contribute to the wiki.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from MySubredditsMixin:
+     |  
+     |  get_my_contributions(cls, *args, **kwargs)
+     |      Return the subreddits where the session's user is a contributor.
+     |  
+     |  get_my_moderation(cls, *args, **kwargs)
+     |      Return the subreddits where the session's user is a mod.
+     |  
+     |  get_my_reddits(cls, *args, **kwargs)
+     |      Return the subreddits that the logged in user is subscribed to.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from PrivateMessagesMixin:
+     |  
+     |  get_inbox(cls, *args, **kwargs)
+     |      Return a generator for inbox messages.
+     |  
+     |  get_mod_mail(cls, *args, **kwargs)
+     |      Return a generator for moderator messages.
+     |  
+     |  get_sent(cls, *args, **kwargs)
+     |      Return a generator for sent messages.
+     |  
+     |  get_unread(cls, *args, **kwargs)
+     |      Return a generator for unread messages.
+     |      
+     |      :param unset_has_mail: When true, clear the has_mail flag (orangered)
+     |          for the user.
+     |      :param update_user: If both unset_has_mail and update user is true, set
+     |          the has_mail attribute of the logged-in user to False.
+     |  
+     |  send_message(cls, *args, **kwargs)
+     |      Send a message to a redditor or a subreddit's moderators (mod mail).
+     |      
+     |      When sending a message to a subreddit the recipient parameter must
+     |      either be a subreddit object or the subreddit name needs to be prefixed
+     |      with either '/r/' or '#'.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SubmitMixin:
+     |  
+     |  submit(cls, *args, **kwargs)
+     |      Submit a new link to the given subreddit.
+     |      
+     |      Accepts either a Subreddit object or a str containing the subreddit's
+     |      display name.
+     |      
+     |      :returns: The newly created Submission object if the reddit instance
+     |          can access it. Otherwise, return the url to the submission.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from SubscribeMixin:
+     |  
+     |  subscribe(cls, *args, **kwargs)
+     |      Subscribe to the given subreddit.
+     |      
+     |      :param subreddit: Either the subreddit name or a subreddit object.
+     |      :param unsubscribe: When true, unsubscribe.
+     |      :returns: The json response from the server.
+     |  
+     |  unsubscribe(self, subreddit)
+     |      Unsubscribe from the given subreddit.
+     |      
+     |      :param subreddit: Either the subreddit name or a subreddit object.
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class SubmitMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'submit' scope (or login).
+     |  
+     |  Method resolution order:
+     |      SubmitMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  submit(cls, *args, **kwargs)
+     |      Submit a new link to the given subreddit.
+     |      
+     |      Accepts either a Subreddit object or a str containing the subreddit's
+     |      display name.
+     |      
+     |      :returns: The newly created Submission object if the reddit instance
+     |          can access it. Otherwise, return the url to the submission.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class SubscribeMixin(AuthenticatedReddit)
+     |  Adds methods requiring the 'subscribe' scope (or login).
+     |  
+     |  Method resolution order:
+     |      SubscribeMixin
+     |      AuthenticatedReddit
+     |      OAuth2Reddit
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  subscribe(cls, *args, **kwargs)
+     |      Subscribe to the given subreddit.
+     |      
+     |      :param subreddit: Either the subreddit name or a subreddit object.
+     |      :param unsubscribe: When true, unsubscribe.
+     |      :returns: The json response from the server.
+     |  
+     |  unsubscribe(self, subreddit)
+     |      Unsubscribe from the given subreddit.
+     |      
+     |      :param subreddit: Either the subreddit name or a subreddit object.
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from AuthenticatedReddit:
+     |  
+     |  __init__(self, *args, **kwargs)
+     |  
+     |  __str__(self)
+     |  
+     |  accept_moderator_invite(cls, *args, **kwargs)
+     |      Accept a moderator invite to the given subreddit.
+     |      
+     |      Callable upon an instance of Subreddit with no arguments.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  clear_authentication(self)
+     |      Clear any existing authentication on the reddit object.
+     |      
+     |      This function is implicitly called on `login` and
+     |      `set_access_credentials`.
+     |  
+     |  edit_wiki_page(self, subreddit, page, content, reason='')
+     |      Create or edit a wiki page with title `page` for `subreddit`.
+     |  
+     |  get_access_information(self, code, update_session=True)
+     |      Return the access information for an OAuth2 authorization grant.
+     |      
+     |      :param code: the code received in the request from the OAuth2 server
+     |      :param update_session: Update the current session with the retrieved
+     |          token(s).
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable.
+     |  
+     |  get_me(cls, *args, **kwargs)
+     |      Return a LoggedInRedditor object.
+     |  
+     |  has_scope(self, scope)
+     |      Return True if OAuth2 authorized for the passed in scope.
+     |  
+     |  is_logged_in(self)
+     |      Return True when session is authenticated via login.
+     |  
+     |  is_oauth_session(self)
+     |      Return True when the current session is an OAuth2 session.
+     |  
+     |  login(self, username=None, password=None)
+     |      Login to a reddit site.
+     |      
+     |      Look for username first in parameter, then praw.ini and finally if both
+     |      were empty get it from stdin. Look for password in parameter, then
+     |      praw.ini (but only if username matches that in praw.ini) and finally
+     |      if they both are empty get it with getpass. Add the variables user
+     |      (username) and pswd (password) to your praw.ini file to allow for auto-
+     |      login.
+     |      
+     |      A succesful login will overwrite any existing authentication.
+     |  
+     |  refresh_access_information(self, refresh_token=None, update_session=True)
+     |      Return updated access information for an OAuth2 authorization grant.
+     |      
+     |      :param refresh_token: The refresh token used to obtain the updated
+     |          information. When not provided, use the storred refresh_token.
+     |      :param update_session: Update the session with the returned data.
+     |      :returns: A dictionary with the key/value pairs for access_token,
+     |          refresh_token and scope. The refresh_token value will be done when
+     |          the OAuth2 grant is not refreshable. The scope value will be a set
+     |          containing the scopes the tokens are valid for.
+     |  
+     |  set_access_credentials(self, *args, **kwargs)
+     |      Set the credentials used for OAuth2 authentication.
+     |      
+     |      Calling this funciton will overwrite any currently existing access
+     |      credentials.
+     |      
+     |      :param scope: A set of reddit scopes the tokens provide access to
+     |      :param access_token: the access_token of the authentication
+     |      :param refresh_token: the refresh token of the authentication
+     |      :param update_user: Whether or not to set the user attribute for
+     |          identity scopes
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from OAuth2Reddit:
+     |  
+     |  get_authorize_url(self, *args, **kwargs)
+     |      Return the URL to send the user to for OAuth2 authorization.
+     |      
+     |      :param state: a unique key that represents this individual client
+     |      :param scope: the reddit scope to ask permissions for. Multiple scopes
+     |          can be enabled by passing in a container of strings.
+     |      :param refreshable: when True, a permanent "refreshable" token is
+     |          issued
+     |  
+     |  set_oauth_app_info(self, client_id, client_secret, redirect_uri)
+     |      Set the App information to use with oauthentication.
+     |      
+     |      This function need only be called if your praw.ini site configuration
+     |      does not already contain the neccessary information.
+     |      
+     |      Go to https://ssl.reddit.com/prefs/apps/ to discover the appropriate
+     |      values for your application.
+     |      
+     |      :param client_id: the client_id of your application
+     |      :param client_secret: the client_secret of your application
+     |      :param redirect_uri: the redirect_uri of your application
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from OAuth2Reddit:
+     |  
+     |  has_oauth_app_info
+     |      Return True if all the necessary OAuth settings are set.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from UnauthenticatedReddit:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+    
+    class UnauthenticatedReddit(BaseReddit)
+     |  This mixin provides bindings for basic functions of reddit's API.
+     |  
+     |  None of these functions require authenticated access to reddit's API.
+     |  
+     |  Method resolution order:
+     |      UnauthenticatedReddit
+     |      BaseReddit
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  create_redditor(...)
+     |      Register a new user.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  get_all_comments(self, gilded_only=False, *args, **kwargs)
+     |      Return all comments (up to the reddit limit).
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_comments(cls, *args, **kwargs)
+     |      Return latest comments on the given subreddit.
+     |      
+     |      :param gilded_only: If True only return gilded comments.
+     |  
+     |  get_controversial(cls, *args, **kwargs)
+     |      Return controversial page.
+     |  
+     |  get_flair(self, subreddit, redditor)
+     |      Return the flair for a user on the given subreddit.
+     |  
+     |  get_front_page(cls, *args, **kwargs)
+     |      Return the front page submissions.
+     |      
+     |      Default front page if not logged in, otherwise get logged in redditor's
+     |      front page.
+     |  
+     |  get_info(cls, *args, **kwargs)
+     |      Look up existing Submissions by thing_id (fullname) or url.
+     |      
+     |      :param url: The url to lookup.
+     |      :param thing_id: The submission to lookup by fullname.
+     |      :param limit: The maximum number of Submissions to return when looking
+     |          up by url. When None, uses account default settings.
+     |      :returns: When thing_id is provided, return the corresponding
+     |          Submission object, or None if not found. When url is provided
+     |          return a list of Submission objects (up to limit) for the url.
+     |  
+     |  get_moderators(self, subreddit)
+     |      Return the list of moderators for the given subreddit.
+     |  
+     |  get_new(cls, *args, **kwargs)
+     |      Return new page.
+     |  
+     |  get_popular_reddits(self, *args, **kwargs)
+     |      Return the most active subreddits.
+     |  
+     |  get_random_subreddit(self)
+     |      Return a random subreddit just like /r/random does.
+     |  
+     |  get_redditor(self, user_name, *args, **kwargs)
+     |      Return a Redditor instance for the user_name specified.
+     |  
+     |  get_submission(self, url=None, submission_id=None, comment_limit=0, comment_sort=None)
+     |      Return a Submission object for the given url or submission_id.
+     |      
+     |      :param comment_limit: The desired number of comments to fetch. If <= 0
+     |          fetch the default number for the session's user. If None, fetch the
+     |          maximum possible.
+     |      :param comment_sort: The sort order for retrived comments. When None
+     |          use the default for the session's user.
+     |  
+     |  get_submissions(self, fullnames, *args, **kwargs)
+     |      Yield Submission objects for each fullname provided in `fullnames`.
+     |      
+     |      A submission fullname looks like `t3_<base36_id>`. Submissions are
+     |      yielded in the same order they appear in fullnames.
+     |      
+     |      Up to 100 items are batched at a time, however, this happens
+     |      transparently.
+     |  
+     |  get_subreddit(self, subreddit_name, *args, **kwargs)
+     |      Return a Subreddit object for the subreddit_name specified.
+     |  
+     |  get_top(cls, *args, **kwargs)
+     |      Return top page.
+     |  
+     |  get_wiki_page(self, subreddit, page)
+     |      Return a WikiPage object for the subreddit and page provided.
+     |  
+     |  get_wiki_pages(self, subreddit)
+     |      Return a list of WikiPage objects for the subreddit.
+     |  
+     |  is_username_available(self, username)
+     |      Return True if username is valid and available, otherwise False.
+     |  
+     |  search(self, query, subreddit=None, sort=None, limit=0, *args, **kwargs)
+     |      Return submissions that match the search query.
+     |      
+     |      See http://www.reddit.com/help/search for more information on how to
+     |      build a search query.
+     |  
+     |  search_reddit_names(self, query)
+     |      Return subreddits whose display name contains the query.
+     |  
+     |  send_feedback(...)
+     |      Send feedback to the admins.
+     |      
+     |      Please don't abuse this. Read the send feedback page at
+     |      http://www.reddit.com/feedback/ (for reddit.com) before use.
+     |      
+     |      :returns: The json response from the server.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from BaseReddit:
+     |  
+     |  __init__(self, user_agent, site_name=None, disable_update_check=False)
+     |      Initialize our connection with a reddit server.
+     |      
+     |      The user_agent is how your application identifies itself. Read the
+     |      official API guidelines for user_agents
+     |      https://github.com/reddit/reddit/wiki/API.  Applications using default
+     |      user_agents such as "Python/urllib" are drastically limited.
+     |      
+     |      site_name allows you to specify which reddit you want to connect to.
+     |      The installation defaults are reddit.com, if you only need to connect
+     |      to reddit.com then you can safely ignore this. If you want to connect
+     |      to another reddit, set site_name to the name of that reddit. This must
+     |      match with an entry in praw.ini. If site_name is None, then the site
+     |      name will be looked for in the environment variable REDDIT_SITE. If it
+     |      is not found there, the default site name reddit matching reddit.com
+     |      will be used.
+     |      
+     |      disable_update_check allows you to prevent an update check from
+     |      occuring in spite of the check_for_updates setting in praw.ini.
+     |  
+     |  get_content(reddit_session, *args, **kwargs)
+     |      A generator method to return reddit content from a URL.
+     |      
+     |      Starts at the initial url, and fetches content using the `after`
+     |      JSON data until `limit` entries have been fetched, or the
+     |      `place_holder` has been reached.
+     |      
+     |      :param url: the url to start fetching content from
+     |      :param params: dictionary containing extra GET data to put in the url
+     |      :param limit: the number of content entries to fetch. If limit <= 0,
+     |          fetch the default for your account (25 for unauthenticated
+     |          users). If limit is None, then fetch as many entries as possible
+     |          (reddit returns at most 100 per request, however, PRAW will
+     |          automatically make additional requests as necessary).
+     |      :param place_holder: if not None, the method will fetch `limit`
+     |          content, stopping if it finds content with `id` equal to
+     |          `place_holder`.
+     |      :param root_field: indicates the field in the json response that holds
+     |          the data. Most objects use 'data', however some (flairlist) don't
+     |          have the 'data' object. Use None for the root object.
+     |      :param thing_field: indicates the field under the root_field which
+     |          contains the list of things. Most objects use 'children'.
+     |      :param after_field: indicates the field which holds the after item
+     |          element
+     |      :type place_holder: a string corresponding to a reddit content id, e.g.
+     |          't3_asdfasdf'
+     |      :returns: a list of reddit content, of type Subreddit, Comment,
+     |          Submission or user flair.
+     |  
+     |  request_json(cls, *args, **kwargs)
+     |      Get the JSON processed from a page.
+     |      
+     |      :param url: the url to grab content from.
+     |      :param params: a dictionary containing the GET data to put in the url
+     |      :param data: a dictionary containing the extra data to submit
+     |      :param as_objects: if True return reddit objects else raw json dict.
+     |      :returns: JSON processed page
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from BaseReddit:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from BaseReddit:
+     |  
+     |  RETRY_CODES = [502, 503, 504]
+     |  
+     |  update_checked = False
+
+FUNCTIONS
+    chr = unichr(...)
+        unichr(i) -> Unicode character
+        
+        Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff.
+    
+    warn_explicit(...)
+        Low-level inferface to warnings functionality.
+
+DATA
+    CONFIG = <ConfigParser.RawConfigParser instance>
+    JPEG_HEADER = '\xff\xd8\xff'
+    MAX_IMAGE_SIZE = 512000
+    MIN_IMAGE_SIZE = 128
+    PNG_HEADER = '\x89PNG\r\n\x1a\n'
+    UA_STRING = '%s PRAW/2.0.14 Python/2.7.2 Darwin-12.3.0-x86_64-i386-64b...
+    __version__ = '2.0.14'
+
+VERSION
+    2.0.14
+
+
+[Finished in 0.4s]
